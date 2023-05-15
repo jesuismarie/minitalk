@@ -6,15 +6,16 @@
 /*   By: mnazarya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 14:37:53 by mnazarya          #+#    #+#             */
-/*   Updated: 2023/05/13 22:50:15 by mnazarya         ###   ########.fr       */
+/*   Updated: 2023/05/15 13:23:42 by mnazarya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minitalk.h>
+#include <stdio.h>
 
 void	yngerjan(int pid, char *str)
 {
-	int bit;
+	int	bit;
 	int	i;
 
 	i = -1;
@@ -23,11 +24,11 @@ void	yngerjan(int pid, char *str)
 		bit = 0;
 		while (bit < 8)
 		{
-			if ((i & (0x01 << bit)))
+			if ((str[i] & (0x01 << bit)))
 				kill(pid, SIGUSR1);
 			else
 				kill(pid, SIGUSR2);
-			usleep(100);
+			usleep(500);
 			bit++;
 		}
 	}

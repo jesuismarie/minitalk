@@ -6,22 +6,23 @@
 /*   By: mnazarya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:28:10 by mnazarya          #+#    #+#             */
-/*   Updated: 2023/05/13 21:30:31 by mnazarya         ###   ########.fr       */
+/*   Updated: 2023/05/15 13:26:36 by mnazarya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minitalk.h>
+#include <stdio.h>
 
-static void	err_mss(void)
-{
-	ft_putstr_fd("Error\n", 2);
-	exit(1);
-}
+// static void	err_mss(void)
+// {
+// 	ft_putstr_fd("Error\n", 2);
+// 	exit(1);
+// }
 
 void	sig_identifier(int sig, siginfo_t *info, void *s)
 {
-	static int	bit;
-	static int	i;
+	static int	bit = 0;
+	static int	i = 0;
 
 	(void)info;
 	(void)s;
@@ -43,16 +44,15 @@ int	main(int argc, char **argv)
 	if (argc != 1)
 		return (1);
 	(void)argv;
-	sa.sa_sigaction = &sig_identifier;
-	sa.sa_flags = SA_SIGINFO;
 	ft_putnbr_fd(getpid(), 1);
 	ft_putchar_fd('\n', 1);
+	sa.sa_sigaction = sig_identifier;
+	sa.sa_flags = SA_SIGINFO;
 	while (1)
 	{
-		if (sigaction(SIGUSR1, &sa, NULL) == -1)
-			err_mss();
-		if (sigaction(SIGUSR2, &sa, NULL) == -1)
-			err_mss();
+		sigaction(SIGUSR1, &sa, NULL);
+		sigaction(SIGUSR2, &sa, NULL);
+		pause();
 	}
 	return (0);
 }
