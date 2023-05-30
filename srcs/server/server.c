@@ -13,12 +13,6 @@
 #include <minitalk.h>
 #include <stdio.h>
 
-// static void	err_mss(void)
-// {
-// 	ft_putstr_fd("Error\n", 2);
-// 	exit(1);
-// }
-
 void	sig_identifier(int sig, siginfo_t *info, void *s)
 {
 	static int	bit = 0;
@@ -48,11 +42,9 @@ int	main(int argc, char **argv)
 	ft_putchar_fd('\n', 1);
 	sa.sa_sigaction = sig_identifier;
 	sa.sa_flags = SA_SIGINFO;
+	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
 	while (1)
-	{
-		sigaction(SIGUSR1, &sa, NULL);
-		sigaction(SIGUSR2, &sa, NULL);
 		pause();
-	}
 	return (0);
 }
